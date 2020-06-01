@@ -1,0 +1,9 @@
+require('./auth');
+require('./user');
+require('./config');
+require('./team');
+require('./team_players');
+require('./area');
+require('./flag');
+require('./item_model');
+require('./item');
