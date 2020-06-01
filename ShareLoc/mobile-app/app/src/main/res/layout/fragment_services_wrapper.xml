@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".View.Service.ServicesWrapper">
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TextAppearance.MaterialComponents.Headline5"
+                android:padding="@dimen/mtrl_card_spacing"
+                android:text="@string/services" />
+
+            <fragment
+                android:id="@+id/services_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:name="com.example.shareloc.View.Service.ServicesList" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/TextAppearance.MaterialComponents.Headline5"
+                android:padding="@dimen/mtrl_card_spacing"
+                android:text="@string/achieved_services" />
+
+            <fragment
+                android:id="@+id/achieved_services_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:name="com.example.shareloc.View.AchievedService.AchievedServicesList" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btn_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        style="@style/AppTheme.FAB"
+        android:src="@drawable/ic_add_black_24dp"/>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,0 +1,39 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="materialButtonStyle">@style/AppTheme.Button.Material</item>
+    </style>
+
+    <style name="AppTheme.TextView.Title" parent="TextAppearance.AppCompat.Button">
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:letterSpacing">0.25</item>
+    </style>
+
+    <style name="AppTheme.TextView.Bold" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">?attr/colorAccent</item>
+    </style>
+
+    <style name="AppTheme.EditText.Filled" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
+        <item name="boxBackgroundColor">@color/lightGrey</item>
+        <item name="android:layout_marginBottom">@dimen/mtrl_card_spacing</item>
+    </style>
+
+    <style name="AppTheme.Button.Material" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">?attr/colorAccent</item>
+    </style>
+
+    <style name="AppTheme.FAB" parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="backgroundTint">?attr/colorAccent</item>
+        <item name="tint">@color/white</item>
+        <item name="android:layout_margin">@dimen/appbar_padding</item>
+        <item name="borderWidth">0dp</item>
+    </style>
+
+</resources>
