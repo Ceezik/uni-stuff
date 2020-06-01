@@ -1,0 +1,14 @@
+com.example.shareloc
+com.example.shareloc.Adapter
+com.example.shareloc.Controller
+com.example.shareloc.Model
+com.example.shareloc.Utils
+com.example.shareloc.View
+com.example.shareloc.View.AchievedService
+com.example.shareloc.View.Authentication
+com.example.shareloc.View.Colocation
+com.example.shareloc.View.Invitation
+com.example.shareloc.View.Member
+com.example.shareloc.View.Message
+com.example.shareloc.View.Service
+com.example.shareloc.View.User

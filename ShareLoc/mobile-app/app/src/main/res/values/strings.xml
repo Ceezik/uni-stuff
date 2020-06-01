@@ -1,0 +1,99 @@
+<resources>
+    <string name="app_name">ShareLoc</string>
+    <string name="colocations">Colocations</string>
+    <string name="mail">Adresse mail</string>
+    <string name="mdp">Mot de passe</string>
+    <string name="inscription">Inscription</string>
+    <string name="connexion">Connexion</string>
+    <string name="s_inscrire">S\'inscrire</string>
+    <string name="se_connecter">Se connecter</string>
+    <string name="prenom">Prénom</string>
+    <string name="nom">Nom</string>
+    <string name="input_login_error">Veuillez entrer une adresse mail valide</string>
+    <string name="input_password_error">Votre mot de passe doit faire plus de 6 caractères</string>
+    <string name="input_firstname_error">Veuillez entrer un prénom</string>
+    <string name="input_lastname_error">Veuillez entrer un nom</string>
+    <string name="login_error">Adresse mail déjà utilisée</string>
+    <string name="generic_error">Une erreur est survenue</string>
+    <string name="credentials_error">Mauvais identifiants</string>
+    <string name="get_colocations_error">Impossible de charger les colocations</string>
+    <string name="no_colocations">Aucune colocation à afficher</string>
+    <string name="invitations">Invitations</string>
+    <string name="messages">Messages</string>
+    <string name="profil">Profil</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="create">Créer</string>
+    <string name="name">Nom</string>
+    <string name="input_name_error">Veuillez entrer un nom</string>
+    <string name="unhautorized_error">Vous n\'avez pas la permission pour effectuer cette action</string>
+    <string name="get_colocation_error">Impossible de charger la colocation</string>
+    <string name="members">Membres</string>
+    <string name="services">Services</string>
+    <string name="achieved_services">Services effectués</string>
+    <string name="no_invitations">Aucune invitation à afficher</string>
+    <string name="invitation_text">vous a invité à rejoindre</string>
+    <string name="get_invitations_error">Impossible de charger les invitations</string>
+    <string name="accept">Accepter</string>
+    <string name="refuse">Refuser</string>
+    <string name="no_members">Aucun membre ne fait partie de cette colocation</string>
+    <string name="get_members_error">Impossible de charger les membres</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="invite">Inviter</string>
+    <string name="search_user">Rechercher un utilisateur</string>
+    <string name="invitation_send">Invitation envoyée</string>
+    <string name="already_member">Cet utilisateur fait déjà partie de la colocation</string>
+    <string name="firstname_txt">Prénom :</string>
+    <string name="lastname_txt">Nom :</string>
+    <string name="login_txt">Adresse mail :</string>
+    <string name="successful_logout">Vous avez bien été déconnecté</string>
+    <string name="settings">Paramètres</string>
+    <string name="change_password">Changer de mot de passe</string>
+    <string name="new_password">Nouveau mot de passe</string>
+    <string name="edit">Modifier</string>
+    <string name="current_password">Mot de passe actuel</string>
+    <string name="wrong_password">Mauvais mot de passe</string>
+    <string name="successful_change_password">Votre mot de passe a bien été modifié</string>
+    <string name="no_messages">Soyez le premier à envoyer un message !</string>
+    <string name="get_messages_error">Impossible de charger les messages</string>
+    <string name="message">Message</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="send_message_error">Impossible d\'envoyer le message</string>
+    <string name="user_not_found">Cet utilisateur n\'existe pas</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="no_services">Aucun service à afficher</string>
+    <string name="get_services_error">Impossible de charger les services</string>
+    <string name="accepted">Accepté</string>
+    <string name="refused">Refusé</string>
+    <string name="waiting_for_votes">En attente de votes</string>
+    <string name="add">Ajouter</string>
+    <string name="create_service">Créer un service</string>
+    <string name="title">Titre</string>
+    <string name="cost">Coût</string>
+    <string name="description">Description</string>
+    <string name="input_title_error">Veuillez entrer un titre</string>
+    <string name="input_cost_error">Veuillez entrer un coût</string>
+    <string name="server_error">Impossible de contacter le serveur</string>
+    <string name="get_service_error">Impossible de charger le service</string>
+    <string name="vote_conflict">Vous avez déjà voté</string>
+    <string name="cost_txt">Coût :</string>
+    <string name="votes">Votes</string>
+    <string name="declare_beneficiaries">Déclarer des bénéficiaires</string>
+    <string name="search_members">Rechercher des membres</string>
+    <string name="declare">Déclarer</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="successful_vote">Votre vote a bien été pris en compte</string>
+    <string name="no_achieved_services">Aucun service n\'a été effectué</string>
+    <string name="get_achieved_services_error">Impossible de charger les services effectués</string>
+    <string name="achieved_service_by">Service effectué par</string>
+    <string name="for_who">pour</string>
+    <string name="get_achieved_service_error">Impossible de charger le service effectué</string>
+    <string name="statut_txt">Statut :</string>
+    <string name="done_at_txt">Effecué le :</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+</resources>
