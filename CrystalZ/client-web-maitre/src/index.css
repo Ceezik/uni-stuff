@@ -1,0 +1,209 @@
+body {
+    margin: 0;
+    background-color: #26292f !important;
+    color: white !important;
+}
+
+button:disabled {
+    cursor: not-allowed !important;
+}
+
+.alert-danger {
+    background-color: #eb4646 !important;
+    color: white !important;
+    border: none !important;
+}
+
+.alert-success {
+    border: none !important;
+    background-color: #68b684 !important;
+    color: white !important;
+}
+
+.alert-toast {
+    position: absolute !important;
+    top: 2rem !important;
+    right: 2rem !important;
+    z-index: 998 !important;
+}
+
+.modal-header,
+.modal-footer {
+    border: none !important;
+}
+
+.modal-content {
+    background-color: #1b1e22 !important;
+}
+
+.btn-toast {
+    position: absolute !important;
+    bottom: 2rem !important;
+    right: 2rem !important;
+    z-index: 998 !important;
+}
+
+.btn-toast-left {
+    position: absolute !important;
+    top: 2rem !important;
+    left: 2rem !important;
+    z-index: 998 !important;
+}
+
+.btn-success {
+    border-color: #68b684 !important;
+    background-color: #68b684 !important;
+}
+
+.btn-success:hover {
+    border-color: #569e70 !important;
+    background-color: #569e70 !important;
+}
+
+.form-control {
+    background-color: #1b1e22 !important;
+    border: none !important;
+    box-shadow: 0px 1px 3px #1b1e22;
+    color: #d2d2d2 !important;
+}
+
+textarea:focus,
+input:focus,
+input[type]:focus,
+.uneditable-input:focus {
+    box-shadow: 0px 1px 3px #1b1e22;
+}
+
+.radio-buttons-wrapper {
+    position: relative;
+    padding-left: 30px;
+    cursor: pointer;
+}
+
+.radio-buttons-wrapper input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background-color: #1b1e22;
+    border-radius: 50%;
+}
+
+.checkmark-light {
+    background-color: #26292f;
+}
+
+.radio-buttons-wrapper input:checked ~ .checkmark {
+    background-color: #68b684;
+}
+
+.checkmark:after {
+    content: '';
+    position: absolute;
+    display: none;
+}
+
+.radio-buttons-wrapper input:checked ~ .checkmark:after {
+    display: block;
+}
+
+.radio-buttons-wrapper .checkmark:after {
+    top: 7px;
+    left: 6px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: white;
+}
+
+.card {
+    background-color: #1b1e22 !important;
+    border: none !important;
+    box-shadow: 0px 1px 3px #1b1e22;
+}
+
+.card-subtitle {
+    color: #d2d2d2 !important;
+    font-weight: 400 !important;
+}
+
+.team-color {
+    height: 50px;
+    width: 50px;
+    border-radius: 4px;
+    box-shadow: 0px 1px 3px #1b1e22;
+}
+
+.team-color-small {
+    height: 25px;
+    width: 25px;
+    border-radius: 4px;
+    box-shadow: 0px 1px 3px #1b1e22;
+}
+
+.table-light {
+    border-radius: 4px !important;
+    background-color: #26292f !important;
+}
+
+.table {
+    color: white !important;
+}
+
+th {
+    text-align: center !important;
+    font-weight: initial !important;
+}
+
+thead > tr > th {
+    font-weight: bold !important;
+}
+
+.map {
+    height: 100vh !important;
+    width: 100% !important;
+}
+
+.leaflet-div-icon {
+    background: transparent !important;
+    border: none !important;
+}
+
+.leaflet-control-zoom,
+.leaflet-control-attribution {
+    display: none;
+}
+
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+    background-color: #26292f !important;
+    color: white;
+}
+
+.input-light {
+    border: none !important;
+    background-color: #26292f !important;
+    border-radius: 4px;
+    color: #d2d2d2 !important;
+}
+
+.input-dark {
+    background-color: #1b1e22 !important;
+    border: none !important;
+    box-shadow: 0px 1px 3px #1b1e22;
+    border-radius: 4px;
+    color: #d2d2d2 !important;
+}
+
+@media (min-width: 768px) {
+    .modal-dialog {
+        max-width: 700px !important;
+    }
+}
