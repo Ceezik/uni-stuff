@@ -1,16 +1,18 @@
-# Client web
+# ShareLoc
+
+### Client web
 
 - React
 - React-Bootstrap
 - Axios
 
-## Application mobile 
+### Application mobile 
 
 - Android Studio (Java)
 - Material.io
 - Volley
 
-# API
+### API
 
 - Java EE
 - JPA
