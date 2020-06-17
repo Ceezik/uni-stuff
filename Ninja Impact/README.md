@@ -1,5 +1,5 @@
 # Ninja Impact
-*Un magnifique jeu de plateformes en 2D, développé par Clément KOENIG et Louis DEFFINIS*
+*Un magnifique jeu de plateformes en 2D, développé par Clément KOENIG et Louis DEFFINIS sur Unity*
 
 ### Commandes
 
