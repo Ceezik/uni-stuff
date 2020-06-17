@@ -39,7 +39,7 @@ button:disabled {
 .btn-toast {
     position: absolute !important;
     bottom: 2rem !important;
-    right: 2rem !important;
+    left: 2rem !important;
     z-index: 998 !important;
 }
 
@@ -200,6 +200,16 @@ thead > tr > th {
     box-shadow: 0px 1px 3px #1b1e22;
     border-radius: 4px;
     color: #d2d2d2 !important;
+}
+
+.inventory-item {
+    background-color: #26292f;
+    padding: 0.75rem 1.25rem !important;
+    border-radius: 4px;
+}
+
+.inventory-item-equiped {
+    border: 1px solid #68b684;
 }
 
 @media (min-width: 768px) {

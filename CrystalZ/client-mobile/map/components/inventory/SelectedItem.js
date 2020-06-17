@@ -1,14 +1,30 @@
-import React, {useState, useEffect} from 'react';
-import {View, Image, TouchableOpacity, Text, Dimensions} from 'react-native';
-import {useConfig} from '../../utils/config';
-import {stylesMap, stylesSigninSignup} from '../../css/style';
+import React, {useEffect} from 'react';
+import {View, Image, Text, Dimensions} from 'react-native';
+import {stylesMap} from '../../css/style';
 import {getItemIcon} from '../marker/MarkersItem';
 import SelectedItemButtons from './SelectedItemButtons';
-import SelectedItemButtonsInstallation from './SelectedItemButtonsInstallation';
 import {DESC_ITEMS} from '../../utils/descriptions';
 import ConfigureItem from './ConfigureItem';
 import ConfigurePortail from './ConfigurePortail';
 
+/**
+ * Composant SelectedItem :
+ * Affiche l'item sélectionné dans l'inventaire et les actions faisables sur cet item
+ *
+ * props :
+ *   - item : item sélectionné
+ *   - setSelectedItem : Setter de la variable item
+ *   - setVisible : Setter de la variable spécifiant si la modalInventory est ouverte ou non
+ *   - flags : Cristaux capturés sur la map
+ *   - playerTeam : Equipe du joueur
+ *   - setCoordsFlag : Setter de la variable specifiant les coordonnées du cristal affiché lors de l'utilisation de l'antenne
+ *   - installation : Booléen à true si on est en train d'installer un item
+ *   - setInstallation : Setter de la variable installation
+ *   - transferedItem : Item à transférer via le portail
+ *   - setTransferedItem : Setter de la vairable transferedITem
+ *   - selectedAllie : Allié sélectionné pour la configuration du portail
+ *   - setSelectedAllie : Setter de la variable selectedAllie
+ */
 const SelectedItem = ({
   item,
   setSelectedItem,

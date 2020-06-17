@@ -82,17 +82,17 @@ function Statistics({ user }) {
                 <Card.Body>
                     <Row className="justify-content-between">
                         <Col xs="auto">
-                            <label>Drapeaux capturés</label>
+                            <label>Cristaux capturés</label>
                             <h4 className="mb-0">{user.Statistic.nbFlags}</h4>
                         </Col>
                         <Col xs="auto">
-                            <label>Drapeaux découverts</label>
+                            <label>Cristaux découverts</label>
                             <h4 className="mb-0">
                                 {user.Statistic.nbDiscoveredFlags}
                             </h4>
                         </Col>
                         <Col xs="auto">
-                            <label>Pièges ayant fait mouche</label>
+                            <label>Joueurs piégés</label>
                             <h4 className="mb-0">{user.Statistic.nbTraps}</h4>
                         </Col>
                     </Row>

@@ -4,6 +4,17 @@ import {View, Text, Dimensions} from 'react-native';
 import SelectedItemButtonsInstallation from './SelectedItemButtonsInstallation';
 import {stylesMap} from '../../css/style';
 
+/**
+ * Composant ConfigureItem :
+ * Affiche les éléments de configuration des pièges
+ *
+ * props :
+ *   - item : Piège sélectionné
+ *   - setSelectedItem : Setter de la variable item
+ *   - setVisible : Setter pour fermer la modalInventory
+ *   - playerTeam : Equipe du joueur
+ *   - setInstallation : Setter de la variable spécifiant si l'on est en train d'installer un item
+ */
 const ConfigureItem = ({
   item,
   setSelectedItem,
@@ -36,7 +47,7 @@ const ConfigureItem = ({
           rounded={false}
           showBorder
           width={200}
-          onChange={num => {
+          onChange={(num) => {
             setDelay(num);
           }}
         />

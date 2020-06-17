@@ -6,11 +6,12 @@ const _ = require('lodash'),
     game_ctrl = require('./game_ctrl'),
     config_ctrl = require('./config_ctrl'),
     interval_ctrl = require('./interval_ctrl'),
+    notification_ctrl = require('./notification_ctrl'),
     { flag_store } = require('../stores'),
     { Flag } = require('../models'),
     { getRandomFlagPoint, calculateRadius } = require('../utils');
 
-let id = null;
+let maxId = null;
 
 const _this = (module.exports = {
     /**
@@ -81,9 +82,9 @@ const _this = (module.exports = {
      * Renvoie un identifiant pour créer un cristal
      */
     getMaxId: () => {
-        if (id) {
-            id++;
-            return id;
+        if (maxId) {
+            maxId++;
+            return maxId;
         } else {
             const flag = _.maxBy(_this.getAll(), 'id');
             return flag ? flag.id + 1 : 1;
@@ -150,40 +151,45 @@ const _this = (module.exports = {
             !flag.capturedUntil ||
             !player
         ) {
-            if (!flag.team || (flag.team && flag.team.id !== teamId)) {
-                const newTeam = team_ctrl.getById(teamId);
+            if (!flag.hasOracle || (flag.hasOracle && !player)) {
+                if (!flag.team || (flag.team && flag.team.id !== teamId)) {
+                    const newTeam = team_ctrl.getById(teamId);
 
-                if (flag.team) {
-                    const currentTeam = team_ctrl.getById(flag.team.id);
-                    if (gameMode === 'TIME') {
-                        interval_ctrl.removeFlagIntervalByObjectId(flag.id);
+                    if (flag.hasOracle) flag.hasOracle = false;
+
+                    if (flag.team) {
+                        const currentTeam = team_ctrl.getById(flag.team.id);
+                        if (gameMode === 'TIME') {
+                            interval_ctrl.removeFlagIntervalByObjectId(flag.id);
+                        } else {
+                            currentTeam.score--;
+                        }
                     } else {
-                        currentTeam.score--;
+                        player && player.statistics.nbDiscoveredFlags++;
                     }
-                } else {
-                    player && player.statistics.nbDiscoveredFlags++;
-                }
 
-                if (gameMode === 'TIME') {
-                    const interval = setInterval(() => {
-                        player && player.statistics.score++;
+                    if (gameMode === 'TIME') {
+                        const interval = setInterval(() => {
+                            player && player.statistics.score++;
+                            newTeam.score++;
+                        }, 1000);
+                        interval_ctrl.createFlagInterval(interval, flag.id);
+                    } else {
                         newTeam.score++;
-                    }, 1000);
-                    interval_ctrl.createFlagInterval(interval, flag.id);
-                } else {
-                    newTeam.score++;
-                    player && player.statistics.score++;
-                }
-                flag.team = newTeam;
-                player && player.statistics.nbFlags++;
-
-                if (gameMode === 'SUPREMACY') {
-                    if (newTeam.score > nbFlags / 2) {
-                        game_ctrl.end(io);
+                        player && player.statistics.score++;
                     }
-                }
+                    flag.team = newTeam;
+                    player && player.statistics.nbFlags++;
 
-                _this.setFlagCapturedDuration(flag, flagCaptureDuration);
+                    if (gameMode === 'SUPREMACY') {
+                        if (newTeam.score > nbFlags / 2) {
+                            game_ctrl.end(io);
+                        }
+                    }
+
+                    _this.setFlagCapturedDuration(flag, flagCaptureDuration);
+                    notification_ctrl.captureFlag(io, teamId);
+                }
             }
         }
     },

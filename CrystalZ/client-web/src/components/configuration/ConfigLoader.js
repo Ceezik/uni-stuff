@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams, Route, Switch } from 'react-router-dom';
 import { Spinner, Row, Col, Container } from 'react-bootstrap';
 import PrivateRoute from '../authentification/PrivateRoute';
@@ -7,6 +7,7 @@ import MapCreator from '../map/MapCreator';
 import { getById } from '../../service/configuration';
 import ConfigFormWrapper from './ConfigFormWrapper';
 import Error from '../Error';
+import { useAuth } from '../../utils/auth';
 
 /**
  * Composant ConfigLoader :
@@ -16,6 +17,7 @@ function ConfigLoader() {
     const [config, setConfig] = useState(null);
     const [loading, setLoading] = useState(true);
     const { configurationId } = useParams();
+    const { user } = useAuth();
 
     useEffect(() => {
         setLoading(true);
@@ -34,20 +36,29 @@ function ConfigLoader() {
         </Container>
     ) : config ? (
         <Switch>
+            {config.OwnerId === user.id && (
+                <>
+                    <PrivateRoute
+                        exact
+                        path="/configs/:configurationId/edit"
+                        component={ConfigFormWrapper}
+                    />
+                    <PrivateRoute
+                        exact
+                        path="/configs/:configurationId/teams"
+                        component={TeamConfig}
+                    />
+                    <PrivateRoute
+                        exact
+                        path="/configs/:configurationId/map"
+                        component={MapCreator}
+                    />
+                </>
+            )}
             <PrivateRoute
                 exact
-                path="/configs/:configurationId/edit"
-                component={ConfigFormWrapper}
-            />
-            <PrivateRoute
-                exact
-                path="/configs/:configurationId/teams"
-                component={TeamConfig}
-            />
-            <PrivateRoute
-                exact
-                path="/configs/:configurationId/map"
-                component={MapCreator}
+                path="/configs/:configurationId/preview"
+                component={() => <MapCreator isOwner={false} />}
             />
             <Route component={Error} />
         </Switch>

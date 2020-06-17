@@ -282,13 +282,13 @@ function ItemMarker({ point, stopDragging, startDragging, actionToSleep }) {
                 }}
             >
                 <Popup ref={popup}>
+                    {point.name} ({point.quantity})
                     <button
-                        className="btn-small btn-light"
+                        className="mt-2 btn-small btn-light"
                         onClick={() => setShowModal(true)}
                     >
                         Modifier
                     </button>
-
                     <button
                         className="mt-1 btn-small btn-danger"
                         onClick={e => {

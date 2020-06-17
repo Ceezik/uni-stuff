@@ -1,11 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import {
-  View,
-  TextInput,
-  TouchableOpacity,
-  BackHandler,
-  Dimensions,
-} from 'react-native';
+import React, {useState} from 'react';
+import {View, TextInput, TouchableOpacity} from 'react-native';
 import {Text} from 'native-base';
 
 import {useAuth} from '../../utils/auth';
@@ -13,7 +7,12 @@ import {useAuth} from '../../utils/auth';
 import {stylesSigninSignup, stylesGame} from '../../css/style';
 import {Popup} from '../Toast';
 import BackButton from '../BackButton';
+import Toast from 'react-native-root-toast';
 
+/**
+ * Composant Signup :
+ * Page d'inscription
+ */
 const Signup = () => {
   const {signup} = useAuth();
 
@@ -28,10 +27,16 @@ const Signup = () => {
     e.preventDefault();
     formValid
       ? signup({username, password}, setError)
-      : Popup('Les mots de passe ne coïncident pas.');
+      : Popup(
+          'Les mots de passe ne coïncident pas.',
+          'rgba(255,0,0,0.5)',
+          Toast.positions.TOP,
+        );
   };
 
-  error !== '' && Popup(error) && setError('');
+  error !== '' &&
+    Popup(error, 'rgba(255,0,0,0.5)', Toast.positions.TOP) &&
+    setError('');
 
   return (
     <View style={stylesSigninSignup.container}>
@@ -70,7 +75,7 @@ const Signup = () => {
       <TouchableOpacity
         style={stylesSigninSignup.submitButton}
         onPress={handleSubmit}>
-        <Text style={stylesSigninSignup.submitButtonText}>Submit</Text>
+        <Text style={stylesSigninSignup.submitButtonText}>S'inscrire</Text>
       </TouchableOpacity>
     </View>
   );

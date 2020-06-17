@@ -1,7 +1,7 @@
 import React from 'react';
 import Modal from 'react-native-modal';
 import {View, Text, ScrollView, TouchableOpacity} from 'react-native';
-import {stylesGame, stylesMap} from '../../css/style';
+import {stylesMap} from '../../css/style';
 import TeamItem from '../partie/TeamItem';
 import _ from 'lodash';
 import {useConfig} from '../../utils/config';
@@ -9,6 +9,16 @@ import {useConfig} from '../../utils/config';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faChevronDown} from '@fortawesome/free-solid-svg-icons';
 
+/**
+ * Composant ModalScore :
+ * Affiche la modal des scores d'une partie
+ *
+ * props :
+ *   - visible : Booleen à true si la modal est visible
+ *   - setModal : setter de la vairalbe visible
+ *   - teams : Equipes de la partie
+ *   - playerTeam : Equipe du joueur connecté
+ */
 const ModalScore = ({visible, setModal, teams, playerTeam}) => {
   const {config} = useConfig();
   return (

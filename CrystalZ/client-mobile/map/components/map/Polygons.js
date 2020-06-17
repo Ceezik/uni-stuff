@@ -2,10 +2,17 @@ import React from 'react';
 import {Polygon} from 'react-native-maps';
 import {formatArea} from '../../utils/game';
 
+/**
+ * Composant Polygons :
+ * Crée des polygones à partir d'un tableau de tableau de coordonnées
+ *
+ * props :
+ *   - areas : Tableau de tableau de coordonnées
+ */
 const Polygons = ({areas}) => {
   return (
     areas.length > 0 &&
-    areas.map(area => {
+    areas.map((area) => {
       return (
         area.coordinates[0] &&
         area.coordinates[0].length > 0 && (

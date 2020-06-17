@@ -38,9 +38,9 @@ export const AuthProvider = ({ children }) => {
         );
     }
 
-    const signup = (user, setError) => {
+    const signup = (credentials, setError) => {
         return request
-            .post('/signup', user)
+            .post('/signup', credentials)
             .then(res => {
                 setError('');
                 Cookies.set('token', res.data.token, { expires: 365 });

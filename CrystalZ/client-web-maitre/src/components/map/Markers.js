@@ -29,6 +29,7 @@ import moment from 'moment';
 import { useTraps } from '../../utils/useTraps';
 import { useAction } from '../../utils/useAction';
 import ItemForm from '../sidebar/ItemForm';
+import Inventory from './Inventory';
 
 /**
  * Composant Marker :
@@ -151,41 +152,60 @@ export function ForbiddenAreaMarker({ position, areaId }) {
  */
 export function PlayerMarker({ player }) {
     const color = player.isConnected ? player.teamColor : 'grey';
+    const [showModal, setShowModal] = useState(false);
 
     return (
-        <Marker position={player.coordinates} icon={iconPlayer(color)}>
-            <Popup>
-                <Row className="justify-content-center">
-                    <Col xs={12}>
-                        {player.username}{' '}
-                        {!player.isConnected && '(Déconnecté)'}
-                    </Col>
-
-                    {player.noyaux.length > 0 && (
+        <>
+            <Marker position={player.coordinates} icon={iconPlayer(color)}>
+                <Popup>
+                    <Row className="justify-content-center">
                         <Col xs={12}>
-                            {`Protégé par ${player.noyaux.length} noyau${
-                                player.noyaux.length > 1 ? 'x' : ''
-                            }`}
+                            {player.username}{' '}
+                            {!player.isConnected && '(Déconnecté)'}
                         </Col>
-                    )}
 
-                    {player.immobilizedUntil && (
-                        <Col xs={12}>
-                            Immobilisé pendant{' '}
-                            {secondsToDuration(
-                                moment
-                                    .duration(
-                                        moment(player.immobilizedUntil).diff(
-                                            moment()
+                        {player.noyaux.length > 0 && (
+                            <Col xs={12}>
+                                {`Protégé par ${player.noyaux.length} noyau${
+                                    player.noyaux.length > 1 ? 'x' : ''
+                                }`}
+                            </Col>
+                        )}
+
+                        {player.immobilizedUntil && (
+                            <Col xs={12}>
+                                Immobilisé pendant{' '}
+                                {secondsToDuration(
+                                    moment
+                                        .duration(
+                                            moment(
+                                                player.immobilizedUntil
+                                            ).diff(moment())
                                         )
-                                    )
-                                    .asSeconds()
-                            )}
+                                        .asSeconds()
+                                )}
+                            </Col>
+                        )}
+
+                        <Col className="mt-2" xs="auto">
+                            <Button
+                                variant="light"
+                                size="sm"
+                                onClick={() => setShowModal(true)}
+                            >
+                                Inventaire
+                            </Button>
                         </Col>
-                    )}
-                </Row>
-            </Popup>
-        </Marker>
+                    </Row>
+                </Popup>
+            </Marker>
+
+            <Inventory
+                player={player}
+                showModal={showModal}
+                handleClose={() => setShowModal(false)}
+            />
+        </>
     );
 }
 

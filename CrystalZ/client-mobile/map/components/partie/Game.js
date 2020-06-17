@@ -4,7 +4,6 @@ import {Text} from 'native-base';
 import request from '../../utils/request';
 import {getData} from '../../utils/asyncStorage';
 import {Actions} from 'react-native-router-flux';
-import io from 'socket.io-client';
 import {useAuth} from '../../utils/auth';
 import RefreshView from '../RefreshView';
 import {stylesGame} from '../../css/style';
@@ -13,10 +12,16 @@ import PrivateGame from './PrivateGame';
 import {Popup} from '../Toast';
 import GamesList from './GamesList';
 import Loader from '../Loader';
+import {useConfig} from '../../utils/config';
 
+/**
+ * Composant Game :
+ * Affiche la page de recherche d'une partie
+ */
 const Game = () => {
   const {user} = useAuth();
   const {socket, setSocket} = useSocket();
+  const {setConfig} = useConfig();
 
   const [games, setGames] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -63,9 +68,19 @@ const Game = () => {
         setGames(res.data);
       })
       .catch(err => {
-        console.log(err);
         Popup('Une erreur est survenue', 'rgba(255, 0,0,0.5)', -70);
       });
+  };
+
+  const checkMap = (gameId, ip, port) => {
+    const socketIo = require('socket.io-client');
+    const socketTmp = socketIo(`http://${ip}:${port}`);
+    setSocket(socketTmp);
+    socketTmp.on('getConfig', config => {
+      setConfig(config);
+    });
+    socketTmp.emit('getConfig');
+    Actions.Map({playerTeam: null, isVisited: true, gameId});
   };
 
   return (
@@ -79,7 +94,7 @@ const Game = () => {
           ) : error ? (
             <Text>{error.message}</Text>
           ) : games && games.length > 0 ? (
-            <GamesList games={games} handleGame={handleGame} />
+            <GamesList games={games} handleGame={checkMap} />
           ) : (
             <Text style={stylesGame.textSecondary}>
               Aucune partie publique en cours

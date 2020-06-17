@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Row, Col, Table } from 'react-bootstrap';
+import { Table } from 'react-bootstrap';
 
 /**
  * Composant DurationInput :

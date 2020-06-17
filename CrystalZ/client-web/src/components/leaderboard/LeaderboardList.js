@@ -15,7 +15,7 @@ function LeaderboardList({ players, filter }) {
         switch (filter) {
             case 'SUPREMACY':
             case 'FLAG':
-                return 'Drapeaux capturés';
+                return 'Cristaux capturés';
             case 'TIME':
                 return 'Temps de possession';
             case 'Victoires':

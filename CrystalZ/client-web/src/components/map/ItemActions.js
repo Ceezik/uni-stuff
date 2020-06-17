@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Row, Col, Image } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -114,9 +114,9 @@ function Item({ item, action, setAction, setSleepingAction }) {
 
         updateItemsModel(configurationId, itemModel.id, serializeModels(data))
             .then(res => {
-                const index = modelItems.indexOf(itemModel);
+                const pos = modelItems.indexOf(itemModel);
                 const newModels = [...modelItems];
-                newModels.splice(index, 1, res.data);
+                newModels.splice(pos, 1, res.data);
                 setModelItems(newModels);
                 handleClose();
             })

@@ -34,6 +34,10 @@ function FlagActions() {
         createRandomFlags(nbFlags);
     };
 
+    const handleAction = () => {
+        setAction(action === 'flag' ? null : 'flag');
+    };
+
     return (
         <Row className="mt-3 ml-1">
             <Col
@@ -41,7 +45,7 @@ function FlagActions() {
                 className={`mb-3 mr-3 actions-item ${
                     action === 'flag' && 'actions-item-selected'
                 }`}
-                onClick={() => setAction('flag')}
+                onClick={handleAction}
             >
                 <Image className="actions-item-img" src={iconFlag} />
             </Col>

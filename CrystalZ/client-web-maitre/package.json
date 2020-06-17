@@ -24,7 +24,7 @@
         "socket.io-client": "^2.3.0"
     },
     "scripts": {
-        "start": "cross-env REACT_APP_SERVER_URL=127.0.0.1 REACT_APP_SERVER_PORT=8081 react-scripts start",
+        "start": "cross-env REACT_APP_SERVER_URL=http://sterne.iutrs.unistra.fr REACT_APP_SERVER_PORT=8082 react-scripts start",
         "build": "react-scripts build",
         "test": "react-scripts test",
         "eject": "react-scripts eject"

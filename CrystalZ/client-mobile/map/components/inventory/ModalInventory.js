@@ -11,10 +11,20 @@ import Inventory from './Inventory';
 import SelectedItem from './SelectedItem';
 import {usePlayer} from '../../utils/player';
 
+/**
+ * Composant ModalInventory :
+ * Affiche la modal Inventaire avec l'inventaire du joueur et l'item sélectionné
+ *
+ * props :
+ *   - visible : Booléen à true si la modal est apparente
+ *   - setVisible : Setter de la variable visible
+ *   - flags : Cristaux capturés sur la carte
+ *   - playerTeam : Equipe du joueur
+ *   - setCoordsFlag : Setter de la variable specifiant les coordonnées du cristal affiché lors de l'utilisation de l'antenne
+ */
 const ModalInventory = ({
   visible,
   setVisible,
-  setModal,
   flags,
   playerTeam,
   setCoordsFlag,
@@ -27,7 +37,6 @@ const ModalInventory = ({
   const {config} = useConfig();
   const {player} = usePlayer();
 
-  console.log(playerTeam.players);
   useEffect(() => {
     !transferedItem && setSelectedAllie(null);
   }, [transferedItem]);
@@ -46,10 +55,10 @@ const ModalInventory = ({
 
   const modalInventorySize = selectedItem
     ? (Dimensions.get('window').height *
-        (70 - Math.ceil(inventorySize / 6) * 10)) /
+        (70 - Math.ceil(inventorySize / 5) * 10)) /
       100
     : (Dimensions.get('window').height *
-        (92 - Math.ceil(inventorySize / 6) * 10)) /
+        (92 - Math.ceil(inventorySize / 5) * 10)) /
       100;
   return (
     <View>
@@ -61,7 +70,7 @@ const ModalInventory = ({
             marginTop: modalInventorySize,
           },
         ]}
-        onBackdropPress={() => setModal(false)}>
+        onBackdropPress={() => setVisible(false)}>
         <View style={{flex: 1}}>
           <View
             style={{
@@ -72,7 +81,7 @@ const ModalInventory = ({
             <Text style={stylesMap.titleModal}>Inventaire</Text>
             <TouchableOpacity
               style={stylesMap.teamScore}
-              onPress={() => setModal(false)}>
+              onPress={() => setVisible(false)}>
               <FontAwesomeIcon
                 icon={faChevronDown}
                 size={26}

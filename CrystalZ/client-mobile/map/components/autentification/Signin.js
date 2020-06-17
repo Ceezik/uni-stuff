@@ -1,20 +1,18 @@
 import React, {useState, useEffect} from 'react';
-import {
-  View,
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
-  BackHandler,
-} from 'react-native';
+import {View, TextInput, TouchableOpacity, BackHandler} from 'react-native';
 import {Button, Text} from 'native-base';
 
 import {Actions} from 'react-native-router-flux';
 
 import {useAuth} from '../../utils/auth';
-import {useSocket} from '../../utils/socket';
 import {stylesSigninSignup, stylesGame} from '../../css/style';
 import {Popup} from '../Toast';
+import Toast from 'react-native-root-toast';
 
+/**
+ * Composant Signin :
+ * Page de connexion au serveur central
+ */
 const Signin = () => {
   const {signin} = useAuth();
   const [username, setUsername] = useState('');
@@ -34,7 +32,9 @@ const Signin = () => {
     BackHandler.addEventListener('hardwareBackPress', exit);
   }, []);
 
-  error !== '' && Popup(error) && setError('');
+  error !== '' &&
+    Popup(error, 'rgba(255,0,0,0.5)', Toast.positions.TOP) &&
+    setError('');
 
   return (
     <View style={stylesSigninSignup.container}>
@@ -60,15 +60,16 @@ const Signin = () => {
         <Text style={stylesSigninSignup.submitButtonText}>Se connecter</Text>
       </TouchableOpacity>
 
-      <Text style={stylesSigninSignup.textRegister}>Pas encore inscrit ?</Text>
-
-      <Button
-        style={stylesSigninSignup.btnRegister}
-        onPress={() => {
-          Actions.Signup();
-        }}>
-        <Text style={stylesSigninSignup.btnRegisterColor}>S'inscrire</Text>
-      </Button>
+      <Text style={stylesSigninSignup.textRegister}>
+        Pas encore inscrit ?{' '}
+        <Text
+          style={stylesSigninSignup.btnRegisterColor}
+          onPress={() => {
+            Actions.Signup();
+          }}>
+          S'inscrire
+        </Text>
+      </Text>
     </View>
   );
 };

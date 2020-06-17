@@ -20,8 +20,20 @@ import { IconOverlay } from '../OverlayTip';
  *   - setSleepingAction : Setter d'une variable d'action dormante
  */
 function ForbiddenZoneActions({ action, setAction, setSleepingAction }) {
-    const { forbiddenZones, createZone, removeAll } = useForbiddenZone();
+    const {
+        forbiddenZones,
+        forbiddenZoneIndex,
+        createZone,
+        removeAll
+    } = useForbiddenZone();
     const [isOpen, setIsOpen] = useState(false);
+
+    const handleAction = (index = null) => {
+        if (action === 'showPopup') setSleepingAction('forbiddenZone');
+        else if (action === 'forbiddenZone' && index === forbiddenZoneIndex)
+            setAction(null);
+        else setAction('forbiddenZone');
+    };
 
     return (
         <>
@@ -40,9 +52,7 @@ function ForbiddenZoneActions({ action, setAction, setSleepingAction }) {
                             xs="auto"
                             className="mr-3 actions-item"
                             onClick={() => {
-                                action === 'showPopup'
-                                    ? setSleepingAction('forbiddenZone')
-                                    : setAction('forbiddenZone');
+                                handleAction();
                                 createZone();
                             }}
                         >
@@ -68,7 +78,7 @@ function ForbiddenZoneActions({ action, setAction, setSleepingAction }) {
                         {forbiddenZones.map((f, index) => (
                             <ForbiddenZoneItem
                                 action={action}
-                                setAction={setAction}
+                                handleAction={handleAction}
                                 zone={f}
                                 key={index}
                             />
@@ -80,7 +90,7 @@ function ForbiddenZoneActions({ action, setAction, setSleepingAction }) {
     );
 }
 
-function ForbiddenZoneItem({ action, setAction, zone }) {
+function ForbiddenZoneItem({ action, handleAction, zone }) {
     const {
         forbiddenZones,
         forbiddenZoneIndex,
@@ -103,7 +113,7 @@ function ForbiddenZoneItem({ action, setAction, zone }) {
                             index === forbiddenZoneIndex &&
                             'actions-item-selected'}`}
                         onClick={() => {
-                            setAction('forbiddenZone');
+                            handleAction(index);
                             setForbiddenZoneIndex(index);
                         }}
                     >
