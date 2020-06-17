@@ -1,11 +1,10 @@
 import React, {useState, useEffect} from 'react';
-import {View, TouchableOpacity, Image, ScrollView} from 'react-native';
+import {View, TouchableOpacity, ScrollView} from 'react-native';
 import _ from 'lodash';
 
 import TeamItem from './TeamItem';
 
-import {stylesGame, stylesMap} from '../../css/style';
-import {Button} from 'react-native-paper';
+import {stylesGame} from '../../css/style';
 import {Actions} from 'react-native-router-flux';
 import {Text} from 'native-base';
 
@@ -16,14 +15,29 @@ import {useConfig} from '../../utils/config';
 import Loader from '../Loader';
 import moment from 'moment';
 import BackButton from '../BackButton';
+import {Popup} from '../Toast';
 
+/**
+ * Composant Teams :
+ * Affiche la page de toutes les équipes (Lobby d'une partie)
+ */
 const Teams = () => {
   const [gameStarted, setGameStarted] = useState(null);
   const [teams, setTeams] = useState(null);
   const [playerTeam, setPlayerTeam] = useState(null);
+  const [finish, setFinish] = useState(false);
   const {setConfig, config} = useConfig();
   const {user} = useAuth();
   const {socket} = useSocket();
+
+  useEffect(() => {
+    config &&
+      !finish &&
+      config.ended &&
+      (Actions.Menu(),
+      Popup('Cette partie est terminée', 'rgba(255,0,0,0.5)', -70),
+      setFinish(true));
+  }, [config]);
 
   const checkStart = () => {
     socket.on('getConfig', config => {
@@ -91,9 +105,7 @@ const Teams = () => {
           )}
           <TouchableOpacity
             style={[
-              gameStarted || (config && config.willLaunchAt)
-                ? stylesSigninSignup.submitButton
-                : stylesSigninSignup.submitButtonDisabled,
+              stylesSigninSignup.submitButton,
               {
                 width: '100%',
                 justifyContent: 'center',
@@ -101,8 +113,7 @@ const Teams = () => {
                 borderRadius: 0,
               },
             ]}
-            onPress={() => Actions.Map({playerTeam})}
-            disabled={!gameStarted && config && !config.willLaunchAt}>
+            onPress={() => Actions.Map({playerTeam})}>
             <Text style={{color: 'white'}}>Accéder à la carte</Text>
           </TouchableOpacity>
         </View>

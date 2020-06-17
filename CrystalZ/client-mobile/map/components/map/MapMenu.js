@@ -1,13 +1,8 @@
 import React, {useState} from 'react';
-import {TouchableOpacity, Image, Text} from 'react-native';
+import {TouchableOpacity, Image} from 'react-native';
 
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {
-  faTimes,
-  faSlidersH,
-  faTrophy,
-  faMapMarker,
-} from '@fortawesome/free-solid-svg-icons';
+import {faTimes, faBars, faTrophy} from '@fortawesome/free-solid-svg-icons';
 import MarkerNegative from '../../img/markerNegative.svg';
 import MarkerPositive from '../../img/markerPositive.svg';
 import BackPack from '../../img/backpack.svg';
@@ -19,6 +14,15 @@ import {usePlayer} from '../../utils/player';
 import {useConfig} from '../../utils/config';
 import {Popup} from '../Toast';
 
+/**
+ * Composant MapMenu :
+ * Affiche le menu de jeu présent sur la carte
+ *
+ * props :
+ *   - coordinates : Position du joueur
+ *   - setModalScore : Setter de la variable spécifiant si la modal des scores est ouverte
+ *   - setModalInventory : Setter de la variable spécifiant si la modal de l'inventaire est ouverte
+ */
 const MapMenu = ({coordinates, setModalScore, setModalInventory}) => {
   const [open, setOpen] = useState(false);
   const {socket} = useSocket();
@@ -87,7 +91,7 @@ const MapMenu = ({coordinates, setModalScore, setModalInventory}) => {
                 <FontAwesomeIcon
                   color="white"
                   onPress={() => setOpen(!open)}
-                  icon={faSlidersH}
+                  icon={faBars}
                   size={32}
                 />
               </TouchableOpacity>

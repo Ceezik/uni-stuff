@@ -15,13 +15,18 @@ import PersonalScore from './PersonalScore';
 import {useSocket} from '../../utils/socket';
 import {usePlayer} from '../../utils/player';
 
+/**
+ * Composant EndGame :
+ * Ecran de fin de partie
+ *
+ * props :
+ *   - playerTeam : Equipe du joueur connecté
+ */
 const EndGame = ({playerTeam}) => {
   const {config} = useConfig();
   const {socket} = useSocket();
   const {player, setPlayer} = usePlayer();
   const [teams, setTeams] = useState([]);
-
-  console.log(player);
 
   useEffect(() => {
     socket.on('getTeams', t => setTeams(t));
@@ -92,7 +97,7 @@ const EndGame = ({playerTeam}) => {
               marginTop: 100,
             },
           ]}
-          onPress={() => Actions.replace('Menu')}>
+          onPress={() => Actions.Menu()}>
           <Text style={{color: 'white'}}>Retour au menu</Text>
         </TouchableOpacity>
       </View>

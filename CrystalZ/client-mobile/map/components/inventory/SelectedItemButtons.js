@@ -1,19 +1,31 @@
 import React from 'react';
-import {View, Image, TouchableOpacity, Text, Dimensions} from 'react-native';
+import {View, TouchableOpacity, Text} from 'react-native';
 import {useSocket} from '../../utils/socket';
-import {stylesMap, stylesSigninSignup} from '../../css/style';
+import {stylesSigninSignup} from '../../css/style';
 import {Popup} from '../Toast';
 import {usePlayer} from '../../utils/player';
 import {useConfig} from '../../utils/config';
 import {inRadius} from '../../utils/calcul';
 
+/**
+ * Composant SelectedItemButtons :
+ * Affiche les actions faisables sur l'item sélectionné
+ *
+ * props :
+ *   - item : item sélectionné
+ *   - setSelectedItem : Setter de la variable item
+ *   - setVisible : Setter de la variable spécifiant si la modalInventory est ouverte ou non
+ *   - flags : Cristaux capturés sur la map
+ *   - playerTeam : Equipe du joueur
+ *   - setCoordsFlag : Setter de la variable specifiant les coordonnées du cristal affiché lors de l'utilisation de l'antenne
+ *   - setInstallation : Setter de la variable installation
+ */
 const SelectedItemButtons = ({
   item,
   setSelectedItem,
   setVisible,
   flags,
   playerTeam,
-  installation,
   setInstallation,
   setCoordsFlag,
 }) => {
@@ -88,8 +100,7 @@ const SelectedItemButtons = ({
     item.name !== 'Canon à photons' &&
       item.name !== 'Transducteur' &&
       item.name !== 'Portail de transfert' &&
-      setVisible(false) &&
-      setSelectedItem(null);
+      (setVisible(false), setSelectedItem(null));
   };
 
   const unequipItem = () => {
@@ -102,11 +113,10 @@ const SelectedItemButtons = ({
         break;
     }
 
-    setVisible(false) && setSelectedItem(null);
+    setVisible(false), setSelectedItem(null);
   };
 
   const inActionRadius = () => {
-    console.log(flags);
     let flag = null;
     let rank = 0;
     while (!flag && rank < flags.length) {
@@ -126,9 +136,26 @@ const SelectedItemButtons = ({
       (player.hasTransporteur && item.name === 'Transporteur') ||
       (item.name === 'Sentinelle' && !inActionRadius()) ||
       (item.name === 'Oracle' &&
-        (!inActionRadius() || inActionRadius().capturedUntil)) ||
+        (!inActionRadius() ||
+          inActionRadius().capturedUntil ||
+          inActionRadius().hasOracle)) ||
+      (item.name === 'Portail de transfert' &&
+        !player.inventory.some(
+          itemInventory =>
+            !itemInventory.equiped && itemInventory.id !== item.id,
+        )) ||
+      (item.name === 'Portail de transfert' &&
+        !playerTeam.players.some(
+          p => p.username !== player.username && checkInventorySize(p),
+        )) ||
       player.immobilizedUntil
     );
+  };
+
+  const checkInventorySize = allie => {
+    return allie.hasTransporteur
+      ? allie.inventory.length < config.inventorySize * 2
+      : allie.inventory.length < config.inventorySize;
   };
 
   return item.equiped ? (

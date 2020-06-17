@@ -1,6 +1,9 @@
 import Geolocation from '@react-native-community/geolocation';
 import {PermissionsAndroid, Platform} from 'react-native';
 
+/**
+ * Fonction d'acceptation de la géolocalisation
+ */
 export const acceptGeoloc = () => {
   // Test pour savoir si l'OS du téléphone est android ou IOS pour demander les droits de géolocalisations
   if (Platform.OS === 'android') {

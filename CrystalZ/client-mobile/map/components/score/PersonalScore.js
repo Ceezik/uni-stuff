@@ -7,9 +7,15 @@ import {secondsToDuration} from '../../utils/calcul';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faUserAlt} from '@fortawesome/free-solid-svg-icons';
 
-import {usePlayer} from '../../utils/player';
 import {useConfig} from '../../utils/config';
 
+/**
+ * Composant TeamItem :
+ * Affiche le score personnel du joueur connecté
+ *
+ * props :
+ *   - player : Joueur connecté
+ */
 const PersonalScore = ({player}) => {
   const {config} = useConfig();
 

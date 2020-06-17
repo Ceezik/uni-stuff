@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Card, Row, Col, Button, Alert } from 'react-bootstrap';
+import { Card, Row, Col, Alert } from 'react-bootstrap';
 import { getUsers, addMember } from '../../service/configuration';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';

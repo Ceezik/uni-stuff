@@ -75,6 +75,11 @@ function Item({ item }) {
         createRandomItems(nbItems, item.name);
     };
 
+    const handleAction = (itemName) => {
+        if (action === 'item' && selectedItem === itemName) setAction(null);
+        else setAction('item');
+    };
+
     return (
         <Col xs={12}>
             <h5>{item.name}</h5>
@@ -88,7 +93,7 @@ function Item({ item }) {
                         'actions-item-selected'
                     }`}
                     onClick={() => {
-                        setAction('item');
+                        handleAction(item.name);
                         setSelectedItem(item.name);
                     }}
                 >

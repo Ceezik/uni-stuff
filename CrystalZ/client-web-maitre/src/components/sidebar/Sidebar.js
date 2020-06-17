@@ -8,6 +8,7 @@ import ForbiddenAreaActions from './ForbiddenAreaActions';
 import PlayerActions from './PlayerActions';
 import FlagActions from './FlagActions';
 import ItemActions from './ItemActions';
+import ResetAction from './ResetAction';
 
 /**
  * Composant Sidebar :
@@ -28,6 +29,8 @@ function Sidebar() {
             <h3 className="mb-5 text-center">
                 {`${config.name} - ${config.gameMode}`}
             </h3>
+
+            <ResetAction />
 
             <Collapsable title="Zone de jeu" defaultOpen={false}>
                 <GameAreaActions />

@@ -26,15 +26,17 @@ function GamesWrapper() {
             .finally(() => setLoading(false));
     }, [dateFilter]);
 
-    const fetchGames = games => {
-        return getGames(games.length / PAGE_SIZE, PAGE_SIZE, dateFilter).then(
-            res => {
-                if (res.data.length < PAGE_SIZE) {
-                    setHasMore(false);
-                }
-                setGames([...games, ...res.data]);
+    const fetchGames = currentGames => {
+        return getGames(
+            currentGames.length / PAGE_SIZE,
+            PAGE_SIZE,
+            dateFilter
+        ).then(res => {
+            if (res.data.length < PAGE_SIZE) {
+                setHasMore(false);
             }
-        );
+            setGames([...currentGames, ...res.data]);
+        });
     };
 
     return (

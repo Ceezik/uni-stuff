@@ -1,11 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {
-  View,
-  Image,
-  TouchableOpacity,
-  ScrollView,
-  RefreshControl,
-} from 'react-native';
+import {View} from 'react-native';
 import {Text} from 'native-base';
 import GamesList from './GamesList';
 import request from '../../utils/request';
@@ -20,10 +14,13 @@ import {useAuth} from '../../utils/auth';
 import RefreshView from '../RefreshView';
 import Loader from '../Loader';
 
+/**
+ * Composant MyGames :
+ * Affiche la liste des parties d'un joueur ainsi que ses demandes
+ */
 const MyGames = () => {
   const [invitations, setInvitations] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
   const {setSocket} = useSocket();
   const {user} = useAuth();
 
@@ -36,6 +33,7 @@ const MyGames = () => {
       .catch(err => {
         Popup('Une erreur est survenue', 'rgba(255, 0,0,0.5)', -70);
       });
+    onRefresh();
   }, []);
 
   const handleGame = (id, ip, port, game) => {

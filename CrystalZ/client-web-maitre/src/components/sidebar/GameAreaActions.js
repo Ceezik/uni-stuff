@@ -14,6 +14,10 @@ function GameAreaActions() {
     const { deleteGameAreas } = useGameAreas();
     const { action, setAction } = useAction();
 
+    const handleAction = () => {
+        setAction(action === 'gameArea' ? null : 'gameArea');
+    };
+
     return (
         <Row className="mt-3 ml-1">
             <Col
@@ -21,7 +25,7 @@ function GameAreaActions() {
                 className={`mb-3 mr-3 actions-item ${
                     action === 'gameArea' && 'actions-item-selected'
                 }`}
-                onClick={() => setAction('gameArea')}
+                onClick={handleAction}
             >
                 <Image className="actions-item-img" src={iconGameArea} />
             </Col>

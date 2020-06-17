@@ -1,28 +1,15 @@
-import React, {useState, useEffect, createContext, useContext} from 'react';
+import React, {useState, createContext, useContext} from 'react';
 import request from './request';
-import {Text} from 'native-base';
-import {storeData} from './asyncStorage';
+import {storeData, removeItem} from './asyncStorage';
 import {Actions} from 'react-native-router-flux';
-import Loader from '../components/Loader';
 
 const AuthContext = createContext();
 
+/**
+ * Contexte d'authentification
+ */
 export const AuthProvider = ({children}) => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    request
-      .get('/user')
-      .then(res => {
-        setUser(res.data);
-      })
-      .finally(() => setLoading(false));
-  }, []);
-
-  if (loading) {
-    return <Loader />;
-  }
 
   const signin = (credentials, setError) => {
     return request
@@ -44,7 +31,7 @@ export const AuthProvider = ({children}) => {
       .then(res => {
         storeData('token', res.data.token);
         setUser(res.data.user);
-        Actions.Signin();
+        Actions.Menu();
       })
       .catch(err => {
         if (err.response.status === 409)
@@ -54,13 +41,13 @@ export const AuthProvider = ({children}) => {
   };
 
   const signout = () => {
-    storeData('token', null);
+    removeItem('token');
     setUser(null);
     Actions.Signin();
   };
 
   return (
-    <AuthContext.Provider value={{user, signin, signup, signout}}>
+    <AuthContext.Provider value={{user, setUser, signin, signup, signout}}>
       {children}
     </AuthContext.Provider>
   );

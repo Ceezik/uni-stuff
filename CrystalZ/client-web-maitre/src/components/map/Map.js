@@ -34,7 +34,7 @@ import TrapList from './TrapList';
  */
 function Map() {
     const { socket } = useSocket();
-    const [zoom, setZoom] = useState(17);
+    const [zoom] = useState(17);
     const [position, setPosition] = useState(null);
     const [showScore, setShowScore] = useState(false);
     const { gameAreas, setGameAreas, createGameAreaPoint } = useGameAreas();
@@ -57,8 +57,8 @@ function Map() {
 
     useEffect(() => {
         socket.on('getAreas', (a) => {
-            setGameAreas(formatAreas(a.filter((a) => !a.forbidden)));
-            setForbiddenAreas(formatAreas(a.filter((a) => a.forbidden)));
+            setGameAreas(formatAreas(a.filter((area) => !area.forbidden)));
+            setForbiddenAreas(formatAreas(a.filter((area) => area.forbidden)));
         });
         socket.emit('getAreas');
 
@@ -168,16 +168,16 @@ function Map() {
 
             <Row className="btn-toast">
                 <Col xs="auto">
-                    <Button onClick={centerOnGameArea} variant="light">
-                        <FontAwesomeIcon icon={faVectorSquare} />
-                    </Button>
-                </Col>
-                <Col xs="auto">
                     <Button
                         onClick={() => setShowScore(true)}
                         variant="success"
                     >
                         Score
+                    </Button>
+                </Col>
+                <Col xs="auto">
+                    <Button onClick={centerOnGameArea} variant="light">
+                        <FontAwesomeIcon icon={faVectorSquare} />
                     </Button>
                 </Col>
             </Row>

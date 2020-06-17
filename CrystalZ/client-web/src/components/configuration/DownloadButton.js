@@ -15,7 +15,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDownload } from '@fortawesome/free-solid-svg-icons';
 import { getVisibilityRadiusAuto, formatZone } from '../../utils/utils';
 import { IconOverlay } from '../OverlayTip';
-import { Spinner } from 'react-bootstrap';
+import { Modal, Button } from 'react-bootstrap';
 
 /**
  * Composant DownloadButton :
@@ -25,7 +25,31 @@ import { Spinner } from 'react-bootstrap';
  *   - configId : Id de la configuration à télécharger
  */
 function DownloadButton({ configId }) {
+    const [showModal, setShowModal] = useState(false);
+
+    return (
+        <>
+            <IconOverlay tipKey="download">
+                <FontAwesomeIcon
+                    icon={faDownload}
+                    size="lg"
+                    onClick={() => setShowModal(true)}
+                    className="mr-2 ml-2"
+                />
+            </IconOverlay>
+
+            <DownloadModal
+                configId={configId}
+                showModal={showModal}
+                handleClose={() => setShowModal(false)}
+            />
+        </>
+    );
+}
+
+function DownloadModal({ configId, showModal, handleClose }) {
     const [loading, setLoading] = useState(false);
+    const [mode, setMode] = useState('rapide');
 
     const configRadius = (config, zone) => {
         const newConfig = { id: config.id };
@@ -139,10 +163,8 @@ function DownloadButton({ configId }) {
                 const config = res.data;
 
                 return getAreas(configId)
-                    .then(res => {
-                        let zone = res.data.filter(
-                            z => z.forbidden === false
-                        )[0];
+                    .then(r => {
+                        let zone = r.data.filter(z => z.forbidden === false)[0];
                         zone = formatZone(zone.position.coordinates[0]);
 
                         return Promise.all([
@@ -172,12 +194,12 @@ function DownloadButton({ configId }) {
             });
     };
 
-    const downloadConfig = () => {
+    const downloadConfig = mode => {
         setLoading(true);
         checkTeams()
             .then(() => {
                 return calculateRadius().then(() => {
-                    return exportConfiguration(configId)
+                    return exportConfiguration(configId, mode)
                         .then(res => {
                             const url = window.URL.createObjectURL(
                                 new Blob([res.data])
@@ -197,17 +219,57 @@ function DownloadButton({ configId }) {
             .finally(() => setLoading(false));
     };
 
-    return loading ? (
-        <Spinner size="sm" animation="border" variant="light" />
-    ) : (
-        <IconOverlay tipKey="download">
-            <FontAwesomeIcon
-                icon={faDownload}
-                size="lg"
-                onClick={downloadConfig}
-                className="mr-2 ml-2"
-            />
-        </IconOverlay>
+    const handleDownload = mode => {
+        setMode(mode);
+        downloadConfig(mode);
+    };
+
+    return (
+        <Modal show={showModal} onHide={handleClose} centered>
+            <Modal.Header>
+                <Modal.Title>Télécharger une configuration</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <label className="subtitle mb-4">
+                    Pour povoir télécharger une configuration vous devez avoir
+                    Docker et Docker-compose sur votre ordinateur.
+                </label>
+
+                <h5>Installation rapide (MacOS)</h5>
+                <label>
+                    Aller dans le dossier Config_python > build puis
+                    double-cliquer sur CrystalZ-1.0
+                </label>
+                <Button
+                    variant="success"
+                    className="btn-primary"
+                    onClick={() => handleDownload('rapide')}
+                    disabled={loading}
+                >
+                    {loading && mode === 'rapide'
+                        ? 'Téléchargement ...'
+                        : 'Télécharger'}
+                </Button>
+
+                <h5 className="mt-3">
+                    Installation manuelle (MacOS, Linux, Windows)
+                </h5>
+                <label>
+                    Ouvrir un terminal dans le dossier téléchargé et lancer la
+                    commande ./startup.sh
+                </label>
+                <Button
+                    variant="success"
+                    className="btn-primary"
+                    onClick={() => handleDownload('manuel')}
+                    disabled={loading}
+                >
+                    {loading && mode === 'manuel'
+                        ? 'Téléchargement ...'
+                        : 'Télécharger'}
+                </Button>
+            </Modal.Body>
+        </Modal>
     );
 }
 

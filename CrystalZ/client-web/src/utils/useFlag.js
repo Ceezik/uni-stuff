@@ -1,4 +1,4 @@
-import React, { useState, createContext, useContext, useEffect } from 'react';
+import React, { useState, createContext, useContext } from 'react';
 import { toast } from 'react-toastify';
 import { useForbiddenZone } from './useForbiddenZone';
 import {
@@ -16,7 +16,7 @@ const FlagContext = createContext();
  * Contexte des cristaux :
  * Permet d'avoir accès à tous les outils de gestion des cristaux partout dans le code
  */
-export const FlagProvider = ({ configId, children }) => {
+export const FlagProvider = ({ children }) => {
     const [flagsPositions, setFlagsPositions] = useState([]);
     const [showFlags, setShowFlags] = useState(true);
     const { forbiddenZones } = useForbiddenZone();
@@ -48,7 +48,7 @@ export const FlagProvider = ({ configId, children }) => {
             isInZone(point.latlng.lat, point.latlng.lng, mainZone)
             ? setFlagsPositions(flagsPositions.concat(newPositon))
             : toast.error(
-                  'Veuillez placer les drapeaux dans une zone de jeu valide'
+                  'Veuillez placer les cristaux dans une zone de jeu valide'
               );
     };
 
@@ -114,8 +114,8 @@ export const FlagProvider = ({ configId, children }) => {
             flagsPositions
                 .filter(f => f.lat !== flag.lat && f.lng !== flag.lng)
                 .map(
-                    flag =>
-                        getDistance(flag, {
+                    f =>
+                        getDistance(f, {
                             lat: newPositon.lat,
                             lng: newPositon.lng
                         }) <

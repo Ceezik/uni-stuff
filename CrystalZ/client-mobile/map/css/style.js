@@ -19,10 +19,8 @@ export const stylesSigninSignup = StyleSheet.create({
       width: 0,
       height: 10,
     },
-    shadowOpacity: 0.3,
+    shadowOpacity: 0.1,
     shadowRadius: 5,
-
-    elevation: 20,
   },
   submitButton: {
     backgroundColor: '#68B684',
@@ -63,6 +61,12 @@ export const stylesGame = StyleSheet.create({
     flex: 1,
     paddingTop: 10,
     backgroundColor: '#26292F',
+  },
+  loader: {
+    flex: 1,
+    justifyContent: 'center',
+    flexDirection: 'column',
+    padding: 10,
   },
   input1: {
     marginBottom: 15,
@@ -163,8 +167,13 @@ export const stylesMap = StyleSheet.create({
     right: 20,
   },
 
+  trapIndicator: {
+    position: 'absolute',
+    bottom: 40,
+    left: 10,
+  },
+
   callout: {
-    backgroundColor: '#26292F',
     width: 100,
     display: `flex`,
     alignItems: `center`,
@@ -290,5 +299,13 @@ export const stylesMap = StyleSheet.create({
     left: 10,
     bottom: 50,
     paddingTop: 20,
+  },
+
+  btnInvitation: {
+    flex: 1,
+    flexDirection: 'row',
+    position: 'absolute',
+    bottom: 10,
+    right: 10,
   },
 });

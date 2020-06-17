@@ -5,11 +5,20 @@ import {Text} from 'native-base';
 import {stylesGame} from '../../css/style';
 import moment from 'moment';
 
+/**
+ * Composant GamesList :
+ * Liste des parties
+ *
+ * props :
+ *   - games : Parties à afficher
+ *   - handleGame : Action à réaliser au clic sur la partie (Fonction vide par défaut)
+ *   - myGames : Booléen à true si on affiche les parties d'un joueur (false par défaut)
+ */
 const GamesList = ({games, handleGame = () => {}, myGames = false}) => {
   return (
     <View>
       <FlatList
-        keyExtractor={item => item.id}
+        keyExtractor={(item) => item.id}
         data={games}
         renderItem={({item}) => (
           <>

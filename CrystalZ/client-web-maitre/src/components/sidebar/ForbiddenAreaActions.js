@@ -59,6 +59,12 @@ function ForbiddenAreaItem({ area }) {
     const iconForbiddenArea = require('../../icons/forbiddenArea.png');
     const index = forbiddenAreas.indexOf(area);
 
+    const handleAction = () => {
+        if (action === 'forbiddenArea' && index === forbiddenAreaIndex)
+            setAction(null);
+        else setAction('forbiddenArea');
+    };
+
     return (
         <Col xs={12}>
             <h5>{`Zone interdite n°${index + 1}`}</h5>
@@ -72,7 +78,7 @@ function ForbiddenAreaItem({ area }) {
                         'actions-item-selected'
                     }`}
                     onClick={() => {
-                        setAction('forbiddenArea');
+                        handleAction();
                         setForbiddenAreaIndex(index);
                     }}
                 >

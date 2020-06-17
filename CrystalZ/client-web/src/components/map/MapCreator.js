@@ -12,9 +12,12 @@ import { ConfigProvider } from '../../utils/useConfig';
 /**
  * Composant MapCreator :
  * Interface de création de la zone de jeu
+ *
+ * props:
+ *   - isOwner : Si l'utilisateur possède la configuration ou non
  */
-function MapCreator() {
-    const [action, setAction] = useState('mainZone');
+function MapCreator({ isOwner = true }) {
+    const [action, setAction] = useState(null);
     const [sleepingAction, setSleepingAction] = useState('');
     const [devicePosition, setDevicePosition] = useState([]);
     const { configurationId } = useParams();
@@ -43,11 +46,15 @@ function MapCreator() {
                     <ForbiddenZoneProvider>
                         <FlagProvider configId={configurationId}>
                             <ItemProvider>
-                                <MapMenuWrapper
-                                    action={action}
-                                    setAction={setAction}
-                                />
+                                {isOwner && (
+                                    <MapMenuWrapper
+                                        action={action}
+                                        setAction={setAction}
+                                        setSleepingAction={setSleepingAction}
+                                    />
+                                )}
                                 <GameMap
+                                    isOwner={isOwner}
                                     configId={configurationId}
                                     defaultPosition={devicePosition}
                                     action={action}

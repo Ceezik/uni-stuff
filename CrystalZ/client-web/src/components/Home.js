@@ -10,6 +10,8 @@ function Home() {
     const landing = require('../img/landing.svg');
     const settings = require('../img/settings.svg');
     const map = require('../img/map.svg');
+    const mdj = require('../img/mdj.png');
+    const mobile = require('../img/mobile.png');
     const download = require('../img/download.svg');
 
     return (
@@ -163,7 +165,14 @@ function Home() {
 
             <Row className="mt-5 justify-content-between align-items-center">
                 <Col md="6">
-                    <Image style={{ maxWidth: '100%' }} src={landing} />{' '}
+                    <Image
+                        style={{
+                            maxWidth: '100%',
+                            borderRadius: '6px',
+                            boxShadow: '0px 0px 10px rgb(0, 0, 0, 0.15)'
+                        }}
+                        src={mdj}
+                    />{' '}
                 </Col>
                 <Col md="5">
                     <h2>Maître du jeu</h2>
@@ -184,8 +193,8 @@ function Home() {
                 <Col md="5">
                     <h2>Joueur lambda</h2>
                     <p className="mt-4 mb-0">
-                        Une application mobile disponible sur Android et IOS
-                        permet de se connecter à un serveur et de jouer.
+                        Une application mobile disponible sur Android permet de
+                        se connecter à un serveur et de jouer.
                     </p>
                     <p className="mt-2">
                         Le but est simple : capturer le plus de cristaux
@@ -193,7 +202,19 @@ function Home() {
                     </p>
                 </Col>
                 <Col md="6">
-                    <Image style={{ maxWidth: '100%' }} src={landing} />{' '}
+                    <Row className="justify-content-center">
+                        <Col xs="auto">
+                            <Image
+                                style={{
+                                    maxWidth: '100%',
+                                    maxHeight: '350px',
+                                    borderRadius: '6px',
+                                    boxShadow: '0px 0px 10px rgb(0, 0, 0, 0.15)'
+                                }}
+                                src={mobile}
+                            />{' '}
+                        </Col>
+                    </Row>
                 </Col>
             </Row>
         </Container>

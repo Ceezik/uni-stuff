@@ -20,8 +20,14 @@ import { IconOverlay } from '../OverlayTip';
  */
 function MainZoneActions({ action, setAction, setSleepingAction }) {
     const { removeAll } = useMainZone();
-    const [isOpen, setIsOpen] = useState(true);
+    const [isOpen, setIsOpen] = useState(false);
     const iconGameArea = require('../../img/gameArea.png');
+
+    const handleAction = () => {
+        if (action === 'showPopup') setSleepingAction('mainZone');
+        else if (action === 'mainZone') setAction(null);
+        else setAction('mainZone');
+    };
 
     return (
         <>
@@ -39,11 +45,7 @@ function MainZoneActions({ action, setAction, setSleepingAction }) {
                             xs="auto"
                             className={`mb-3 mr-3 actions-item ${action ===
                                 'mainZone' && 'actions-item-selected'}`}
-                            onClick={() =>
-                                action === 'showPopup'
-                                    ? setSleepingAction('mainZone')
-                                    : setAction('mainZone')
-                            }
+                            onClick={handleAction}
                         >
                             <Image
                                 style={{ maxWidth: '25px', maxHeight: '25px' }}

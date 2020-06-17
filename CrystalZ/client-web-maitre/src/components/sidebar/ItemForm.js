@@ -239,10 +239,11 @@ function ItemForm({ showModal, handleClose, item, model = true }) {
                                     setDuration={setEffectDuration}
                                 />
                             </Col>
-                            <Col xs="auto" className="mb-2 danger">
-                                {customErrors.effectDuration &&
-                                    customErrors.effectDuration}
-                            </Col>
+                            {customErrors.effectDuration && (
+                                <Col xs="auto" className="mb-2 danger">
+                                    {customErrors.effectDuration}
+                                </Col>
+                            )}
                         </Row>
                     )}
                 </Form>

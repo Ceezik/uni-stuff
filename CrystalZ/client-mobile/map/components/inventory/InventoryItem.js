@@ -3,6 +3,17 @@ import {View, Image, TouchableOpacity} from 'react-native';
 import {stylesMap} from '../../css/style';
 import {getItemIcon} from '../marker/MarkersItem';
 
+/**
+ * Composant InventoryItem :
+ * Affiche un item de l'inventaire du joueur
+ *
+ * props :
+ *   - item : Item à afficher
+ *   - selectedItem : item sélectionné
+ *   - setSelectedItem : Setter de la variable item
+ *   - portailInstallation : Booléen à true si on est en train de configurer le portail
+ *   - setTransferedItem : Setter de la vairable spécifiant l'item à transférer
+ */
 const InventoryItem = ({
   item,
   selectedItem,

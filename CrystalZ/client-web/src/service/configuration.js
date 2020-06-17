@@ -50,8 +50,10 @@ export const cloneConfiguration = idConfig => {
     return request.post(`/configs/${idConfig}/clone`);
 };
 
-export const exportConfiguration = idConfig => {
-    return request.get(`/configs/${idConfig}/export`, { responseType: 'blob' });
+export const exportConfiguration = (idConfig, mode) => {
+    return request.get(`/configs/${idConfig}/export?mode=${mode}`, {
+        responseType: 'blob'
+    });
 };
 
 export const getTeams = idConfig => {

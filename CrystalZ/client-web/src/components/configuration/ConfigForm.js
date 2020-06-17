@@ -13,6 +13,7 @@ import DurationInput from '../forms/DurationInput';
 import { initializeItemModels } from '../../utils/items';
 import { HelpButton } from '../OverlayTip';
 import { GAME_TIPS } from '../../utils/tips';
+import { toast } from 'react-toastify';
 
 /**
  * Composant ConfigForm :
@@ -31,11 +32,11 @@ function ConfigForm({ config }) {
     const [duration, setDuration] = useState(config ? config.duration : null);
     const [error, setError] = useState('');
 
-    const validate = config => {
+    const validate = data => {
         if (
-            (config.gameMode != 'SUPREMACY' && !duration) ||
-            (config.gameMode != 'SUPREMACY' && duration < 60) ||
-            (config.gameMode != 'SUPREMACY' && duration > 31536000)
+            (data.gameMode != 'SUPREMACY' && !duration) ||
+            (data.gameMode != 'SUPREMACY' && duration < 60) ||
+            (data.gameMode != 'SUPREMACY' && duration > 31536000)
         ) {
             setError(
                 'Veuillez entrer une durée comprise entre 60 secondes et 1 an'
@@ -50,11 +51,12 @@ function ConfigForm({ config }) {
         return false;
     };
 
-    const createConfig = config => {
-        if (validate(config)) {
-            config.flagCaptureDuration = flagCaptureDuration;
-            config.duration = config.gameMode != 'SUPREMACY' ? duration : null;
-            create(serializeConfig(config))
+    const createConfig = newConfig => {
+        if (validate(newConfig)) {
+            newConfig.flagCaptureDuration = flagCaptureDuration;
+            newConfig.duration =
+                newConfig.gameMode != 'SUPREMACY' ? duration : null;
+            create(serializeConfig(newConfig))
                 .then(res => {
                     const configId = res.data.id;
                     initializeItemModels(duration, configId).then(() =>
@@ -72,9 +74,7 @@ function ConfigForm({ config }) {
             newConfig.duration =
                 newConfig.gameMode != 'SUPREMACY' ? duration : null;
             updateById(serializeConfig(newConfig))
-                .then(res => {
-                    history.push(`/configs/${res.data.id}/teams`);
-                })
+                .then(() => toast.success('Configuration modifiée'))
                 .catch(err => setError(err.response.data));
         }
     };
@@ -176,6 +176,7 @@ function ConfigForm({ config }) {
                         <label className="mt-5">
                             Nombre maximum de joueurs par équipe
                         </label>
+                        <HelpButton tipKey="maxPlayers" />
                         <Input
                             type="number"
                             name="maxPlayers"
@@ -209,7 +210,7 @@ function ConfigForm({ config }) {
                                     className="btn-primary"
                                     type="submit"
                                 >
-                                    {config ? 'Modifier' : 'Créer'}
+                                    {config ? 'Enregistrer' : 'Créer'}
                                 </Button>
                             </Col>
                         </Row>

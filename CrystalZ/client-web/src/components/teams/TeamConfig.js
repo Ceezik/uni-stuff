@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom';
 import { Card, Row, Col, Button, Container, Spinner } from 'react-bootstrap';
 import { useDataFromUrl } from '../../utils/data';
 import TeamConfigItem from './TeamConfigItem';
-import history from '../../utils/history';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import ConfigMenu from '../configuration/ConfigMenu';
@@ -102,23 +101,6 @@ const TeamConfig = () => {
                                     />
                                 ))
                             )}
-
-                            <Row className="mt-5 justify-content-end">
-                                <Col xs="auto">
-                                    <Button
-                                        variant="success"
-                                        type="button"
-                                        className="btn-primary"
-                                        onClick={() =>
-                                            history.push(
-                                                `/configs/${configurationId}/map`
-                                            )
-                                        }
-                                    >
-                                        Enregistrer
-                                    </Button>
-                                </Col>
-                            </Row>
                         </>
                     )}
                 </Col>

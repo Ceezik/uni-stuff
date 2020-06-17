@@ -4,15 +4,22 @@ import {stylesGame, stylesMap} from '../../css/style';
 import {View, Dimensions} from 'react-native';
 import {secondsToDuration} from '../../utils/calcul';
 
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faSquareFull} from '@fortawesome/free-solid-svg-icons';
-
 import {
   Collapse,
   CollapseHeader,
   CollapseBody,
 } from 'accordion-collapse-react-native';
 
+/**
+ * Composant TeamItem :
+ * Affiche une équipe d'une partie
+ *
+ * props :
+ *   - team : Equipe à afficher
+ *   - score : Booleen à true si on affiche le score (false par défaut)
+ *   - mode : Mode de jeu de la partie en cours
+ *   - playerTeam : Equipe du joueur connecté
+ */
 const TeamItem = ({team, score = false, mode, playerTeam}) => {
   return (
     <Collapse style={stylesGame.item}>
@@ -49,7 +56,6 @@ const TeamItem = ({team, score = false, mode, playerTeam}) => {
       </CollapseHeader>
       <CollapseBody>
         {team.players.map(player => {
-          console.log(player);
           return (
             <View>
               <Text

@@ -1,11 +1,6 @@
 import React from 'react';
 import { OverlayTrigger, Tooltip, Image, Row, Col } from 'react-bootstrap';
-import {
-    CONFIG_TIPS,
-    ITEMS_TIPS,
-    GENERAL_TIPS,
-    GAME_TIPS
-} from '../utils/tips';
+import { CONFIG_TIPS, ITEMS_TIPS, GENERAL_TIPS } from '../utils/tips';
 import { getItemImage } from '../utils/utils';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -21,11 +16,26 @@ import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 export function HelpButton({ tipKey }) {
     const tip = CONFIG_TIPS[tipKey];
 
+    const renderTooltip = props => {
+        return (
+            <Tooltip id={tipKey} {...props}>
+                {tip.tip}
+            </Tooltip>
+        );
+    };
+
     return (
         <>
             <OverlayTrigger
                 placement={tip.placement}
-                overlay={<Tooltip>{tip.tip}</Tooltip>}
+                overlay={renderTooltip}
+                popperConfig={{
+                    modifiers: {
+                        preventOverflow: {
+                            enabled: false
+                        }
+                    }
+                }}
             >
                 <FontAwesomeIcon
                     className="ml-2"
@@ -63,20 +73,38 @@ export function ItemOverlay({
     const tip = ITEMS_TIPS[item.name];
     const iconUrl = getItemImage(item);
 
+    const handleAction = () => {
+        if (action === 'showPopup') setSleepingAction('items');
+        else if (action === 'items' && selectedModelItem === index)
+            setAction(null);
+        else setAction('items');
+
+        setSelectedModelItem(index);
+    };
+
+    const renderTooltip = props => {
+        return (
+            <Tooltip id={item.name} {...props}>
+                <Row>
+                    <Col md={{ offset: 1, span: 10 }}>{tip.tip}</Col>
+                </Row>
+            </Tooltip>
+        );
+    };
+
     return (
         <>
             {tip && (
                 <OverlayTrigger
                     placement={tip.placement}
-                    overlay={
-                        <Tooltip>
-                            <Row>
-                                <Col md={{ offset: 1, span: 10 }}>
-                                    {tip.tip}
-                                </Col>
-                            </Row>
-                        </Tooltip>
-                    }
+                    overlay={renderTooltip}
+                    popperConfig={{
+                        modifiers: {
+                            preventOverflow: {
+                                enabled: false
+                            }
+                        }
+                    }}
                 >
                     <Col
                         xs="auto"
@@ -84,12 +112,7 @@ export function ItemOverlay({
                             'items' &&
                             selectedModelItem === index &&
                             'actions-item-selected'}`}
-                        onClick={() => {
-                            action === 'showPopup'
-                                ? setSleepingAction('items')
-                                : setAction('items');
-                            setSelectedModelItem(index);
-                        }}
+                        onClick={handleAction}
                     >
                         <Image
                             style={{
@@ -108,14 +131,27 @@ export function ItemOverlay({
 export function IconOverlay({ children, tipKey }) {
     const tip = GENERAL_TIPS[tipKey];
 
+    const renderTooltip = props => {
+        return (
+            <Tooltip id={tipKey} {...props}>
+                {tip.tip}
+            </Tooltip>
+        );
+    };
+
     return (
-        <>
-            <OverlayTrigger
-                placement={tip.placement}
-                overlay={<Tooltip>{tip.tip}</Tooltip>}
-            >
-                {children}
-            </OverlayTrigger>{' '}
-        </>
+        <OverlayTrigger
+            placement={tip.placement}
+            overlay={renderTooltip}
+            popperConfig={{
+                modifiers: {
+                    preventOverflow: {
+                        enabled: false
+                    }
+                }
+            }}
+        >
+            {children}
+        </OverlayTrigger>
     );
 }

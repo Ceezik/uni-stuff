@@ -13,7 +13,7 @@ import End from '../utils/End';
  */
 function ConfigLoader() {
     const { socket } = useSocket();
-    const { config, setConfig } = useConfig();
+    const { config } = useConfig();
     const [showMap, setShowMap] = useState(true);
 
     useEffect(() => {

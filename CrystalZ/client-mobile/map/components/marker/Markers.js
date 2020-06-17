@@ -2,7 +2,6 @@ import React from 'react';
 import {useAuth} from '../../utils/auth';
 import {Marker, Callout} from 'react-native-maps';
 import {useSocket} from '../../utils/socket';
-import {Svg} from 'react-native-svg';
 import {View, Image, Text, TouchableOpacity} from 'react-native';
 import CrystalLocked from '../../img/crystal-locked.svg';
 import MarkerNegative from '../../img/markerNegative.svg';
@@ -14,11 +13,22 @@ import {usePlayer} from '../../utils/player';
 import {inRadius} from '../../utils/calcul';
 import {Popup} from '../Toast';
 
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faMapMarker} from '@fortawesome/free-solid-svg-icons';
 import {stylesMap} from '../../css/style';
-import MarkersItem from './MarkersItem';
+import ItemList from './MarkersItem';
 
+/**
+ * Composant Markers :
+ * Crée les markers à positionner sur la carte
+ *
+ * props :
+ *   - players : Joueurs à afficher
+ *   - flags : Cristaux à afficher
+ *   - unknowns : Eléments inconnus à afficher
+ *   - playerTeam : Equie du joueur connecté
+ *   - position : Position du joueur
+ *   - teamMarkers : Marqueurs de l'équipe
+ *   - items : Items à afficher
+ */
 const Markers = ({
   players,
   flags,
@@ -37,22 +47,21 @@ const Markers = ({
   return (
     <>
       <PlayerMarker players={players} />
-      <FlagMarker
+      <FlagList
         flags={flags}
         playerTeam={playerTeam}
         position={position}
         isImmobilized={isImmobilized}
       />
-      <UnknownMarker unknowns={unknowns} />
-      <TeamMarker teamMarkers={teamMarkers} />
-      <MarkersItem items={items} isImmobilized={isImmobilized} />
+      <UnknownList unknowns={unknowns} />
+      <TeamMarkerList teamMarkers={teamMarkers} />
+      <ItemList items={items} isImmobilized={isImmobilized} />
     </>
   );
 };
 
 const PlayerMarker = ({players}) => {
   const {user} = useAuth();
-  const img = require('../../img/crystal.gif');
 
   return (
     players.length > 0 &&
@@ -78,7 +87,22 @@ const PlayerMarker = ({players}) => {
   );
 };
 
-const FlagMarker = ({flags, playerTeam, position, isImmobilized}) => {
+const FlagList = ({flags, playerTeam, position, isImmobilized}) => {
+  return (
+    flags.length > 0 &&
+    flags.map(f => (
+      <FlagMarker
+        key={f.id}
+        flag={f}
+        playerTeam={playerTeam}
+        position={position}
+        isImmobilized={isImmobilized}
+      />
+    ))
+  );
+};
+
+const Flag = ({flag, playerTeam, position, isImmobilized}) => {
   const {socket} = useSocket();
   const {config} = useConfig();
 
@@ -87,60 +111,63 @@ const FlagMarker = ({flags, playerTeam, position, isImmobilized}) => {
       ? Popup('Cristal déjà capturé', 'rgba(255, 165, 0, 0.5)')
       : !inRadius(flag.coordinates, position, config.flagActionRadius)
       ? Popup('Cristal trop éloigné !')
-      : flag.capturedUntil
+      : flag.capturedUntil || flag.hasOracle
       ? Popup('Cristal vérouillé', 'rgba(255, 165, 0, 0.5)')
       : socket.emit('captureFlag', {flagId: flag.id, teamId: playerTeam.id}) &&
         Popup('Capture en cours...', 'rgba(0, 255,255, 0.5)');
   };
 
   return (
-    flags.length > 0 &&
-    flags.map(f => {
-      return (
-        <Marker
-          coordinate={{
-            latitude: f.coordinates[0],
-            longitude: f.coordinates[1],
-          }}
-          onPress={() => isImmobilized() || captureFlag(f)}>
-          <View>
-            {f.capturedUntil ||
-            (f.hasOracle &&
-              inRadius(f.coordinates, position, config.flagActionRadius)) ? (
-              <CrystalLocked fill={f.team ? f.team.color : 'grey'} />
-            ) : (
-              <Crystal fill={f.team ? f.team.color : 'grey'} />
-            )}
-          </View>
-        </Marker>
-      );
-    })
+    <Marker
+      coordinate={{
+        latitude: flag.coordinates[0],
+        longitude: flag.coordinates[1],
+      }}
+      onPress={() => isImmobilized() || captureFlag(flag)}>
+      <View>
+        {flag.capturedUntil ||
+        (flag.hasOracle &&
+          inRadius(flag.coordinates, position, config.flagActionRadius)) ? (
+          <CrystalLocked fill={flag.team ? flag.team.color : 'grey'} />
+        ) : (
+          <Crystal fill={flag.team ? flag.team.color : 'grey'} />
+        )}
+      </View>
+    </Marker>
   );
 };
 
-const UnknownMarker = ({unknowns}) => {
+const UnknownList = ({unknowns}) => {
   return (
-    unknowns.length > 0 &&
-    unknowns.map(u => {
-      return (
-        <Marker
-          title="Inconnu"
-          coordinate={{
-            latitude: u.coordinates[0],
-            longitude: u.coordinates[1],
-          }}>
-          <Image
-            source={require('../../img/unknown.png')}
-            style={{width: 40, height: 40}}
-            resizeMode="contain"
-          />
-        </Marker>
-      );
-    })
+    unknowns.length > 0 && unknowns.map(u => <UnknownMarker unknown={u} />)
   );
 };
 
-const TeamMarker = ({teamMarkers}) => {
+const Unknown = ({unknown}) => {
+  return (
+    <Marker
+      title="Inconnu"
+      coordinate={{
+        latitude: unknown.coordinates[0],
+        longitude: unknown.coordinates[1],
+      }}>
+      <Image
+        source={require('../../img/unknown.png')}
+        style={{width: 40, height: 40}}
+        resizeMode="contain"
+      />
+    </Marker>
+  );
+};
+
+const TeamMarkerList = ({teamMarkers}) => {
+  return (
+    teamMarkers.length > 0 &&
+    teamMarkers.map(m => <TeamMarkerMemo key={m.id} marker={m} />)
+  );
+};
+
+const TeamMarker = ({marker}) => {
   const {socket} = useSocket();
 
   const deleteMarker = marker => {
@@ -149,31 +176,40 @@ const TeamMarker = ({teamMarkers}) => {
   };
 
   return (
-    teamMarkers.length > 0 &&
-    teamMarkers.map(m => {
-      return (
-        <Marker
-          coordinate={{
-            latitude: m.coordinates[0],
-            longitude: m.coordinates[1],
-          }}>
-          {m.isPositive ? (
-            <MarkerPositive width="30" height="52.5" fill="green" />
-          ) : (
-            <MarkerNegative width="30" height="52.5" fill="red" />
-          )}
-          <Callout
-            style={stylesMap.callout}
-            tooltip={false}
-            onPress={() => deleteMarker(m)}>
-            <TouchableOpacity>
-              <Text style={{color: 'red'}}>Supprimer</Text>
-            </TouchableOpacity>
-          </Callout>
-        </Marker>
-      );
-    })
+    <Marker
+      coordinate={{
+        latitude: marker.coordinates[0],
+        longitude: marker.coordinates[1],
+      }}>
+      {marker.isPositive ? (
+        <MarkerPositive width="30" height="52.5" fill="green" />
+      ) : (
+        <MarkerNegative width="30" height="52.5" fill="red" />
+      )}
+      <Callout
+        style={stylesMap.callout}
+        tooltip={true}
+        onPress={() => deleteMarker(marker)}>
+        <View>
+          <TouchableOpacity>
+            <Text style={{color: 'red'}}>Supprimer</Text>
+          </TouchableOpacity>
+        </View>
+      </Callout>
+    </Marker>
   );
 };
+
+const FlagMarker = React.memo(Flag, (prevProps, nextProps) => {
+  return prevProps.flag.nbUpdates === nextProps.flag.nbUpdates;
+});
+
+const UnknownMarker = React.memo(Unknown, (prevProps, nextProps) => {
+  return prevProps.unknown.nbUpdates === nextProps.unknown.nbUpdates;
+});
+
+const TeamMarkerMemo = React.memo(TeamMarker, (prevProps, nextProps) => {
+  return prevProps.marker.nbUpdates === nextProps.marker.nbUpdates;
+});
 
 export default Markers;

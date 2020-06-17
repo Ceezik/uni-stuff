@@ -32,16 +32,16 @@ const ConfigsWrapper = () => {
             .finally(() => setLoading(false));
     }, [nameFilter, gameModeFilter, community]);
 
-    const fetchConfigs = configurations => {
+    const fetchConfigs = currentConfigurations => {
         const p = community
             ? getAll(
-                  configurations.length / PAGE_SIZE,
+                  currentConfigurations.length / PAGE_SIZE,
                   PAGE_SIZE,
                   nameFilter,
                   gameModeFilter
               )
             : getConfigs(
-                  configurations.length / PAGE_SIZE,
+                  currentConfigurations.length / PAGE_SIZE,
                   PAGE_SIZE,
                   nameFilter,
                   gameModeFilter
@@ -51,7 +51,7 @@ const ConfigsWrapper = () => {
             if (res.data.length < PAGE_SIZE) {
                 setHasMore(false);
             }
-            setConfigurations([...configurations, ...res.data]);
+            setConfigurations([...currentConfigurations, ...res.data]);
         });
     };
 

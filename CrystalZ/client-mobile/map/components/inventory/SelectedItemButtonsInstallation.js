@@ -1,10 +1,25 @@
 import React from 'react';
-import {View, Image, TouchableOpacity, Text, Dimensions} from 'react-native';
+import {View, TouchableOpacity, Text} from 'react-native';
 import {useSocket} from '../../utils/socket';
-import {stylesMap, stylesSigninSignup} from '../../css/style';
+import {stylesSigninSignup} from '../../css/style';
 import {usePlayer} from '../../utils/player';
-import {useConfig} from '../../utils/config';
+import {Popup} from '../Toast';
 
+/**
+ * Composant SelectedItemButtons :
+ * Affiche le menu de configuration d'un piège ou du portail
+ *
+ * props :
+ *   - item : item sélectionné
+ *   - delay : Délai d'activation du piège à configuré
+ *   - setSelectedItem : Setter de la variable item
+ *   - setVisible : Setter de la variable spécifiant si la modalInventory est ouverte ou non
+ *   - setInstallation : Setter de la variable installation
+ *   - transferedItem : Item à transférer via le portail
+ *   - setTransferedItem : Setter de la variable transferedItem
+ *   - selectedAllie : Allié séletionné pour le portail
+ *   - portail : Booleen à true si on configure le portail (false par défaut)
+ */
 const SelectedItemButtonsInstallation = ({
   item,
   delay,
@@ -12,17 +27,13 @@ const SelectedItemButtonsInstallation = ({
   setVisible,
   setInstallation,
   transferedItem,
-  setTransferedItem,
-  selectedAllie,
+  setTransferedItem = () => {},
+  selectedAllie = null,
   portail = false,
 }) => {
   const {socket} = useSocket();
-  const {config} = useConfig();
   const {player} = usePlayer();
 
-  console.log('Item', transferedItem);
-  console.log('Allié', selectedAllie);
-  console.log('Portail', portail);
   const useItem = () => {
     switch (item.name) {
       case 'Canon à photons':
@@ -45,6 +56,7 @@ const SelectedItemButtonsInstallation = ({
           username: selectedAllie.username,
           itemId: transferedItem.id,
         });
+        Popup('Item transféré', 'rgba(0, 255, 0, 0.5)');
         break;
     }
 
@@ -69,23 +81,22 @@ const SelectedItemButtonsInstallation = ({
           Annuler
         </Text>
       </TouchableOpacity>
-      {!portail ||
-        (portail && selectedAllie && (
-          <TouchableOpacity
-            onPress={() => useItem()}
+      {(!portail || (portail && selectedAllie)) && (
+        <TouchableOpacity
+          onPress={() => useItem()}
+          style={[
+            stylesSigninSignup.submitButton,
+            {width: 80, marginRight: 10},
+          ]}>
+          <Text
             style={[
-              stylesSigninSignup.submitButton,
-              {width: 80, marginRight: 10},
+              stylesSigninSignup.submitButtonText,
+              {textAlign: 'center'},
             ]}>
-            <Text
-              style={[
-                stylesSigninSignup.submitButtonText,
-                {textAlign: 'center'},
-              ]}>
-              Valider
-            </Text>
-          </TouchableOpacity>
-        ))}
+            Valider
+          </Text>
+        </TouchableOpacity>
+      )}
     </View>
   );
 };

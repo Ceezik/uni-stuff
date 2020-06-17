@@ -3,6 +3,13 @@ import {View, TextInput, TouchableOpacity} from 'react-native';
 import {Text} from 'native-base';
 import {stylesGame} from '../../css/style';
 
+/**
+ * Composant PrivateGame :
+ * Formulaire de demande de participation à une partie privée
+ *
+ * props :
+ *   - handleGame : Fonction à exécuter au clic sur le bouton
+ */
 const PrivateGame = ({handleGame}) => {
   const [key, setKey] = useState('');
 
@@ -15,7 +22,7 @@ const PrivateGame = ({handleGame}) => {
           placeholder="Clé d'accès"
           placeholderTextColor="#D2D2D2"
           autoCapitalize="none"
-          onChangeText={e => setKey(e)}
+          onChangeText={(e) => setKey(e)}
         />
       </View>
       <TouchableOpacity

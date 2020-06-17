@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Card, Row, Col } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCopy, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { faCopy, faTrashAlt, faEye } from '@fortawesome/free-solid-svg-icons';
 import history from '../../utils/history';
 import { cloneConfiguration } from '../../service/configuration';
 import moment from 'moment';
@@ -66,6 +66,20 @@ const ConfigsListItem = ({ configuration, community, deleteConfig }) => {
                     </Col>
 
                     <Col xs="auto">
+                        {community && (
+                            <IconOverlay tipKey="seeMap">
+                                <FontAwesomeIcon
+                                    icon={faEye}
+                                    size="lg"
+                                    className="mr-2 ml-2"
+                                    onClick={() =>
+                                        history.push(
+                                            `configs/${configuration.id}/preview`
+                                        )
+                                    }
+                                />
+                            </IconOverlay>
+                        )}
                         <IconOverlay tipKey="clone">
                             <FontAwesomeIcon
                                 icon={faCopy}

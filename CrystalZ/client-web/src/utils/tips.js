@@ -30,6 +30,11 @@ export const CONFIG_TIPS = {
             "Période pendant laquelle un cristal n'est plus capturable par les ennemis après qu'il ait été capturé. ",
         placement: 'right'
     },
+    maxPlayers: {
+        tip:
+            "Si vous n'entrez pas de valeur, le nombre de joueurs par équipe ne sera pas limité.",
+        placement: 'right'
+    },
     inventaire: {
         tip:
             "Nombre d'items qu'un joueur peut transporter. Par défaut, la taille est de 2. ",
@@ -105,6 +110,11 @@ export const GENERAL_TIPS = {
 
     clone: {
         tip: 'Copier',
+        placement: 'top'
+    },
+
+    seeMap: {
+        tip: 'Voir la carte',
         placement: 'top'
     },
 
@@ -247,7 +257,7 @@ export const ITEMS_TIPS = {
         tip: (
             <span>
                 <strong> Sentinelle</strong>
-                <br /> Augmente le temps d'invulnérabilité d’un crystal capturé
+                <br /> Augmente le temps d'invulnérabilité d’un cristal capturé
             </span>
         ),
         placement: 'right'

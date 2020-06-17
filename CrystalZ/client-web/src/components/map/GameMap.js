@@ -24,11 +24,14 @@ import { useMainZone } from '../../utils/useMainZone';
 import { useForbiddenZone } from '../../utils/useForbiddenZone';
 import { useFlag } from '../../utils/useFlag';
 import { useItem } from '../../utils/useItem';
+import { updateConfig } from '../../utils/config';
 import { toast } from 'react-toastify';
-import { Button } from 'react-bootstrap';
+import { Button, Row, Col } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faVectorSquare } from '@fortawesome/free-solid-svg-icons';
+import { faVectorSquare, faCopy } from '@fortawesome/free-solid-svg-icons';
 import { IconOverlay } from '../OverlayTip';
+import history from '../../utils/history';
+import { cloneConfiguration } from '../../service/configuration';
 
 /**
  * Composant GameMap :
@@ -40,16 +43,19 @@ import { IconOverlay } from '../OverlayTip';
  *   - setAction : Setter de la variable action
  *   - setSleepingAction : Setter d'une variable d'action dormante
  *   - configId : Id de la configuration en cours d'édition
+ *   - isOwner : Si l'utilisateur possède la configuration ou non
  */
 function GameMap({
     defaultPosition,
     action,
     setAction,
     setSleepingAction,
-    configId
+    configId,
+    isOwner
 }) {
-    const [position, setPosition] = useState(defaultPosition);
-    const [zoom, setZoom] = useState(17);
+    const [loading, setLoading] = useState(false);
+    const [position] = useState(defaultPosition);
+    const [zoom] = useState(17);
     const map = useRef(null);
     const { config } = useConfig();
     const {
@@ -72,22 +78,24 @@ function GameMap({
         let zoneIndex = -1;
         getAreas(configId).then(zones => {
             zoneIndex++;
-            zones.data.map(zone =>
-                !zone.forbidden
-                    ? (setMainZone(formatMainZone(zone)),
-                      centerGameArea(formatMainZone(zone)))
-                    : forbZones.push(formatForbiddenZone(zoneIndex, zone))
-            );
+            zones.data.forEach(zone => {
+                if (!zone.forbidden) {
+                    setMainZone(formatMainZone(zone));
+                    centerGameArea(formatMainZone(zone));
+                } else {
+                    forbZones.push(formatForbiddenZone(zoneIndex, zone));
+                }
+            });
         });
 
         setForbiddenZoneIndex(zoneIndex);
         setForbiddenZones(forbZones);
 
-        getFlags(configId).then(flags => setFlagsPositions(formatFlags(flags)));
+        getFlags(configId).then(res => setFlagsPositions(formatFlags(res)));
 
         getItemsModel(configId).then(res => setModelItems(res.data));
 
-        getItems(configId).then(items => setItems(formatItems(items)));
+        getItems(configId).then(res => setItems(formatItems(res)));
     }, []);
 
     useEffect(() => {
@@ -174,18 +182,79 @@ function GameMap({
         }
     };
 
+    const saveMap = () => {
+        if (mainZone.length === 0) {
+            toast.error(
+                "Veuillez créer une zone de jeu avant d'enregistrer la carte"
+            );
+        } else {
+            setLoading(true);
+            updateConfig(
+                configId,
+                mainZone,
+                forbiddenZones,
+                flagsPositions,
+                items
+            )
+                .then(() => toast.success('Configuration enregistrée'))
+                .catch(() => toast.error('Une erreur est survenue'))
+                .finally(() => setLoading(false));
+        }
+    };
+
+    const cloneConfig = () => {
+        cloneConfiguration(configId)
+            .then(res => {
+                history.push(`/configs/${res.data.id}/edit`);
+            })
+            .catch(() => toast.error('Impossible de cloner la configuration'));
+    };
+
     return (
         defaultPosition.length !== 0 && (
             <>
-                <IconOverlay tipKey="centerOnGameArea">
-                    <Button
-                        variant="light"
-                        className="btn-toast"
-                        onClick={() => centerGameArea(mainZone)}
-                    >
-                        <FontAwesomeIcon icon={faVectorSquare} />
-                    </Button>
-                </IconOverlay>
+                <Row className="btn-toast">
+                    {isOwner ? (
+                        <>
+                            <Col xs="auto">
+                                <Button
+                                    variant="success"
+                                    className="btn-primary"
+                                    disabled={loading}
+                                    onClick={() => !loading && saveMap()}
+                                >
+                                    {loading
+                                        ? 'Enregistrement ...'
+                                        : 'Enregistrer'}
+                                </Button>
+                            </Col>
+                            <Col xs="auto">
+                                <IconOverlay tipKey="centerOnGameArea">
+                                    <Button
+                                        variant="light"
+                                        onClick={() => centerGameArea(mainZone)}
+                                    >
+                                        <FontAwesomeIcon
+                                            icon={faVectorSquare}
+                                        />
+                                    </Button>
+                                </IconOverlay>
+                            </Col>
+                        </>
+                    ) : (
+                        <Col xs="auto">
+                            <IconOverlay tipKey="clone">
+                                <Button
+                                    variant="success"
+                                    className="btn-primary"
+                                    onClick={() => cloneConfig()}
+                                >
+                                    <FontAwesomeIcon icon={faCopy} size="lg" />
+                                </Button>
+                            </IconOverlay>
+                        </Col>
+                    )}
+                </Row>
 
                 <Map
                     ref={map}
